@@ -30,11 +30,11 @@ set /p OUT_NAME="Digite o nome do executavel (ex: Collider_BR10.exe) ou de enter
 if "%OUT_NAME%"=="" set "OUT_NAME=Collider_BR.exe"
 
 echo.
-echo [INFO] Compilando Collider_Main.pb para -^> %OUT_NAME%
+echo [INFO] Compilando Collider.pb para -^> ..\x64\%OUT_NAME%
 echo [INFO] Usando compilador: %PB_COMPILER%
 echo.
 
-"%PB_COMPILER%" Collider_Main.pb /EXE "%OUT_NAME%" /CONSOLE /THREAD
+"%PB_COMPILER%" Collider.pb /EXE "..\x64\%OUT_NAME%" /CONSOLE /THREAD
 
 if %ERRORLEVEL% EQU 0 (
     echo.

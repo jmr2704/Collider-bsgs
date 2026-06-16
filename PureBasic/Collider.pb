@@ -1,10 +1,12 @@
 IncludeFile "globals.pbi"
+IncludeFile "language.pbi"
 IncludeFile "declares.pbi"
 IncludeFile "proc_utils.pbi"
 IncludeFile "proc_math_core.pbi"
 IncludeFile "proc_hashtable.pbi"
 IncludeFile "proc_cuda_driver.pbi"
 ;-START
+InitLanguage()
 
 OnErrorCall(@ErrorHandler())
 
@@ -31,38 +33,38 @@ If HT_POW>30
 EndIf
 
 If Int(Log(waletcounter)/Log(2))-HT_POW>2
-  PrintN("  AVISO! O parametro -htsz esta muito baixo, deve ser pelo menos "+Str(Int(Log(waletcounter)/Log(2))-2))
+  PrintN(L("warn_htsz_low")+Str(Int(Log(waletcounter)/Log(2))-2))
 EndIf
 
 *CenterBig=AllocateMemory(32)
 If *CenterBig=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *CenterX=AllocateMemory(32)
 If *CenterX=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *CenterY=AllocateMemory(32)
 If *CenterY=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
 *GlobKey=AllocateMemory(32)
 If *GlobKey=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 GlobPub\x=AllocateMemory(32)
 If GlobPub\x=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 GlobPub\y=AllocateMemory(32)
 If GlobPub\y=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *WINKEY=AllocateMemory(32)
@@ -73,105 +75,105 @@ EndIf
 
 *WidthRange=AllocateMemory(32)
 If *WidthRange=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *PrivBIG=AllocateMemory(32)
 *PrivBIG2=AllocateMemory(32)
 *PrivBIG3=AllocateMemory(32)
 If *PrivBIG=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 PubkeyBIG\x=AllocateMemory(32)
 PubkeyBIG\y=AllocateMemory(32)
 If PubkeyBIG\x=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 If PubkeyBIG\y=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *MaxNonceBIG=AllocateMemory(32)
 If *MaxNonceBIG=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 ADDPUBG\x=AllocateMemory(32)
 If ADDPUBG\x=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 ADDPUBG\y=AllocateMemory(32)
 If ADDPUBG\y=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *bufferResult=AllocateMemory(32)
 If *bufferResult=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *addX=AllocateMemory(32)
 If *addX=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *addY=AllocateMemory(32)
 If *addY=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
 *PRKADDBIG=AllocateMemory(32)
 If *PRKADDBIG=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
 PUBADDBIG\x=AllocateMemory(32)
 If PUBADDBIG\x=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 PUBADDBIG\y=AllocateMemory(32)
 If PUBADDBIG\y=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
 
 FINDPUBG\x=AllocateMemory(32)
 If FINDPUBG\x=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 FINDPUBG\y=AllocateMemory(32)
 If FINDPUBG\y=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
 REALPUB\x=AllocateMemory(32)
 If REALPUB\x=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 REALPUB\y=AllocateMemory(32)
 If REALPUB\y=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
 Two\x=AllocateMemory(32)
 If Two\x=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 Two\y=AllocateMemory(32)
 If Two\y=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
@@ -268,7 +270,7 @@ Define border$
 memVal$ = StrD((maxnonce* 96+160 + HT_items * #HashTablesz + #align_size + waletcounter * #HashTableSizeHash)/1024/1024,3)+"Mb"
 border$ = ReplaceString(Space(39 + Len(memVal$)), " ", "*")
 PrintN("  " + border$)
-Print("  * Total de Memoria GPU Necessaria  : ") : ConsoleColor(10, 0) : Print(memVal$) : ConsoleColor(7, 0) : PrintN(" *")
+Print(L("total_gpu_mem")) : ConsoleColor(10, 0) : Print(memVal$) : ConsoleColor(7, 0) : PrintN(" *")
 PrintN("  " + border$)
 
 
@@ -299,7 +301,7 @@ EndIf
 
 
 ;Generate GIANTS points
-;PrintN("  Gerando Buffer de Giants: "+Str(maxnonce)+" items")
+;PrintN(L("gen_giants")+Str(maxnonce)+" items")
 starttime= ElapsedMilliseconds() 
 
 Save_Load_Giants()
@@ -324,7 +326,7 @@ EndIf
 
 *GlobCnt=AllocateMemory(pointcount * 40)
 If *GlobCnt=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
@@ -356,7 +358,7 @@ Curve::m_subModX64(PUBADDBIG\y,*CurveP,PUBADDBIG\y,*CurveP)
         While i<=pointcount
           ndev = Val( StringField(Defdevice$,i+1,",") )
           If ndev>=usedgpucount
-            PrintN("  Numero de GPU invalido #"+Str(ndev)+", deveria ser <= "+Str(usedgpucount-1))
+            PrintN(L("invalid_gpu")+Str(ndev)+", deveria ser <= "+Str(usedgpucount-1))
             exit("")
           EndIf
           i+1
@@ -376,7 +378,7 @@ Curve::m_subModX64(PUBADDBIG\y,*CurveP,PUBADDBIG\y,*CurveP)
           CreateThread (@cuda(),ndev)
           ;PrintN("  GPU #"+Str(ndev)+" launched")
         Else
-          PrintN("  Numero de GPU invalido #"+Defdevice$+", deveria ser <= "+Str(usedgpucount-1))
+          PrintN(L("invalid_gpu")+Defdevice$+", deveria ser <= "+Str(usedgpucount-1))
           exit("")
         EndIf
       EndIf
@@ -448,11 +450,11 @@ If Curve::m_check_nonzeroX64(*WidthRange)=1
   EndIf
 EndIf
 If cnttimer2 > 1
-  Print("  MODO ALEATORIO : ") : ConsoleColor(10, 0) : PrintN(Str(cnttimer2)+" (bit)") : ConsoleColor(7, 0)
+  Print(L("random_mode")) : ConsoleColor(10, 0) : PrintN(Str(cnttimer2)+" (bit)") : ConsoleColor(7, 0)
 EndIf
   
   
-Print("  Inicio Global                    : ") : ConsoleColor(10, 0) : PrintN(Curve::m_gethex32(*PrivBIG)) : ConsoleColor(7, 0)
+Print(L("global_start")) : ConsoleColor(10, 0) : PrintN(Curve::m_gethex32(*PrivBIG)) : ConsoleColor(7, 0)
 
 If Curve::m_check_nonzeroX64(*WidthRange)
   ;endrange is set
@@ -460,9 +462,9 @@ If Curve::m_check_nonzeroX64(*WidthRange)
     ;endrange less or equil beginrange
     exit("  End range should be more than begin range!")
   Else
-    Print("  Fim Global                       : ") : ConsoleColor(10, 0) : PrintN(Curve::m_gethex32(*WidthRange)) : ConsoleColor(7, 0)
+    Print(L("global_end")) : ConsoleColor(10, 0) : PrintN(Curve::m_gethex32(*WidthRange)) : ConsoleColor(7, 0)
     Curve::m_subModX64(*WidthRange,*WidthRange,*PrivBIG,*Curveqn)
-    Print("  Range Global                     : ") : ConsoleColor(10, 0) : PrintN(Curve::m_gethex32(*WidthRange)) : ConsoleColor(7, 0)
+    Print(L("global_range")) : ConsoleColor(10, 0) : PrintN(Curve::m_gethex32(*WidthRange)) : ConsoleColor(7, 0)
     endrangeflag=1
   EndIf
 EndIf
@@ -518,7 +520,7 @@ EndIf
 
 
 If CreateThread (@saveCurentCNT(),pointcount)
-  Print("  Checkpoint                       : ") : ConsoleColor(10, 0) : PrintN("Salva a cada "+Str(cnttimer)+" segundos") : ConsoleColor(7, 0)
+  Print(L("checkpoint")) : ConsoleColor(10, 0) : PrintN(L("save_every")+Str(cnttimer)+" " + L("seconds")) : ConsoleColor(7, 0)
 Else
   exit("  Can`t launch thread")
 EndIf
@@ -560,9 +562,9 @@ ForEach publist()
   Curve::m_sethex32(FINDPUBG\x, @a$ )
   a$=Right(cutHex(mainpub),64)
   Curve::m_sethex32(FINDPUBG\y, @a$)
-  Print("  Site do Projeto                  : ") : ConsoleColor(10, 0) : PrintN("https://github.com/jmr2704/Collider-bsgs") : ConsoleColor(7, 0)
-  Print("  Doacao (BTC)                     : ") : ConsoleColor(10, 0) : PrintN("bc1q7s4m9cwlq8xtx2nz74mquh6ax0jqwsmkkd56s3") : ConsoleColor(7, 0)
-  Print("  Buscando Chave Pub               : ") : ConsoleColor(10, 0) : PrintN(uncomressed2commpressedPub(Curve::m_gethex32(FINDPUBG\x)+Curve::m_gethex32(FINDPUBG\y))) : ConsoleColor(7, 0)
+  Print(L("site")) : ConsoleColor(10, 0) : PrintN(L("site_url")) : ConsoleColor(7, 0)
+  Print(L("donate")) : ConsoleColor(10, 0) : PrintN(L("donate_url")) : ConsoleColor(7, 0)
+  Print(L("findpubkey")) : ConsoleColor(10, 0) : PrintN(uncomressed2commpressedPub(Curve::m_gethex32(FINDPUBG\x)+Curve::m_gethex32(FINDPUBG\y))) : ConsoleColor(7, 0)
   PrintN("  ")
   CopyMemory(FINDPUBG\x,REALPUB\x,32)
   CopyMemory(FINDPUBG\y,REALPUB\y,32)  
@@ -596,10 +598,10 @@ ForEach publist()
   If Curve::m_check_equilX64(REALPUB\x, *CurveGX)
     If Curve::m_check_equilX64(REALPUB\y, *CurveGY)
       ConsoleColor(11, 0)
-      PrintN("  ========================================== ENCONTRADO ("+Str(listpos)+") ===========================================")
+      PrintN(L("found")+Str(listpos)+") ===========================================")
       ConsoleColor(7, 0)
-      Print("  Chave Privada                    : ") : ConsoleColor(10, 0) : PrintN(RSet("1",64,"0")) : ConsoleColor(7, 0) 
-      Print("  Chave Publica                    : ") : ConsoleColor(10, 0) : PrintN(uncomressed2commpressedPub(Curve::m_gethex32(REALPUB\x)+ Curve::m_gethex32(REALPUB\y))) : ConsoleColor(7, 0)
+      Print(L("privat_key")) : ConsoleColor(10, 0) : PrintN(RSet("1",64,"0")) : ConsoleColor(7, 0) 
+      Print(L("public_key")) : ConsoleColor(10, 0) : PrintN(uncomressed2commpressedPub(Curve::m_gethex32(REALPUB\x)+ Curve::m_gethex32(REALPUB\y))) : ConsoleColor(7, 0)
       ConsoleColor(11, 0)
       PrintN("  =====================================================================================================")
       ConsoleColor(7, 0)
@@ -610,19 +612,19 @@ ForEach publist()
         WriteStringN(0, "  =====================================================================================================")
         CloseFile(0)                      
       Else
-        exit("  Nao foi possivel criar o arquivo!")
+        exit(L("cant_create_file"))
       EndIf
-      Print("  Tempo Trabalho                   : ") : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", Date()-workingtime)) : ConsoleColor(7, 0)
+      Print(L("working_time")) : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", Date()-workingtime)) : ConsoleColor(7, 0)
       finditems+1
       Continue
     EndIf
   ElseIf Curve::m_check_equilX64(REALPUB\x, Two\x)
     If Curve::m_check_equilX64(REALPUB\y, Two\y)
       ConsoleColor(11, 0)
-      PrintN("  ========================================== ENCONTRADO ("+Str(listpos)+") ===========================================")
+      PrintN(L("found")+Str(listpos)+") ===========================================")
       ConsoleColor(7, 0)
-      Print("  Chave Privada                    : ") : ConsoleColor(10, 0) : PrintN(RSet("2",64,"0")) : ConsoleColor(7, 0) 
-      Print("  Chave Publica                    : ") : ConsoleColor(10, 0) : PrintN(uncomressed2commpressedPub(Curve::m_gethex32(REALPUB\x)+ Curve::m_gethex32(REALPUB\y))) : ConsoleColor(7, 0)
+      Print(L("privat_key")) : ConsoleColor(10, 0) : PrintN(RSet("2",64,"0")) : ConsoleColor(7, 0) 
+      Print(L("public_key")) : ConsoleColor(10, 0) : PrintN(uncomressed2commpressedPub(Curve::m_gethex32(REALPUB\x)+ Curve::m_gethex32(REALPUB\y))) : ConsoleColor(7, 0)
       ConsoleColor(11, 0)
       PrintN("  =====================================================================================================")
       ConsoleColor(7, 0)
@@ -631,9 +633,9 @@ ForEach publist()
         WriteStringN(0, RSet("  Chave Publica: ",Len("KEY["+Str(listpos)+"]: ")," ")+uncomressed2commpressedPub(Curve::m_gethex32(REALPUB\x)+ Curve::m_gethex32(REALPUB\y)))
         CloseFile(0)                      
       Else
-        exit("  Nao foi possivel criar o arquivo!")
+        exit(L("cant_create_file"))
       EndIf
-      Print("  Tempo Trabalho                   : ") : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", Date()-workingtime)) : ConsoleColor(7, 0)
+      Print(L("working_time")) : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", Date()-workingtime)) : ConsoleColor(7, 0)
       finditems+1
       Continue
     EndIf
@@ -752,24 +754,24 @@ ForEach publist()
   If quit
     ;it mean key founded
     ConsoleColor(11, 0)
-    PrintN("  ========================================== ENCONTRADO ("+Str(listpos)+") ===========================================")
+    PrintN(L("found")+Str(listpos)+") ===========================================")
     ConsoleColor(7, 0)
-    Print("  Chave Privada                    : ") : ConsoleColor(10, 0) : PrintN(Curve::m_gethex32(*WINKEY)) : ConsoleColor(7, 0) 
-    Print("  Chave Publica                    : ") : ConsoleColor(10, 0) : PrintN(uncomressed2commpressedPub(Curve::m_gethex32(REALPUB\x)+ Curve::m_gethex32(REALPUB\y))) : ConsoleColor(7, 0)
+    Print(L("privat_key")) : ConsoleColor(10, 0) : PrintN(Curve::m_gethex32(*WINKEY)) : ConsoleColor(7, 0) 
+    Print(L("public_key")) : ConsoleColor(10, 0) : PrintN(uncomressed2commpressedPub(Curve::m_gethex32(REALPUB\x)+ Curve::m_gethex32(REALPUB\y))) : ConsoleColor(7, 0)
     ConsoleColor(11, 0)
     PrintN("  =====================================================================================================")
     ConsoleColor(7, 0)
     
     If OpenFile(0, #WINFILE, #PB_File_Append)
-      WriteStringN(0, "  ========================================== ENCONTRADO ("+Str(listpos)+") ===========================================")
+      WriteStringN(0, L("found")+Str(listpos)+") ===========================================")
       WriteStringN(0, "  Chave Privada : "+Curve::m_gethex32(*WINKEY)) 
       WriteStringN(0, "  Chave Publica : "+uncomressed2commpressedPub(Curve::m_gethex32(REALPUB\x)+ Curve::m_gethex32(REALPUB\y)))
       CloseFile(0)                      
     Else
-      exit("  Nao foi possivel criar o arquivo!")
+      exit(L("cant_create_file"))
     EndIf
     ConsoleColor(15, 0)
-    Print("  Tempo Trabalho                   : ") : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", Date()-workingtime)) : ConsoleColor(7, 0)  
+    Print(L("working_time")) : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", Date()-workingtime)) : ConsoleColor(7, 0)  
     finditems+1
   EndIf
 Next
@@ -778,10 +780,12 @@ ConsoleTitle(Title$)
 globalquit=1   
 isreadyjob=0
 
-Print("  Tempo Total                      : ") : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", Date()-begintime)) : ConsoleColor(7, 0)
-Print("  Tempo Leitura                    : ") : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", workingtime-begintime)) : ConsoleColor(7, 0)   
+Delay(1000)
+PrintN("")
+Print(L("total_time")) : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", Date()-begintime)) : ConsoleColor(7, 0)
+Print(L("load_time")) : ConsoleColor(10, 0) : PrintN(FormatDate("%hh:%ii:%ss", workingtime-begintime)) : ConsoleColor(7, 0)   
 Delay(2000)
-PrintN("  Cuda finalizado com sucesso")
+PrintN(L("cuda_ok"))
 exit("  ")
 
 ;use AnyToData + 5D2057

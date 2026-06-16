@@ -74,7 +74,7 @@ Procedure Tune(memsize, sm)
      If ramneed2>ramneed1
        ramneed1=ramneed2
      EndIf
-     Print("  Parametros testados              : ") : ConsoleColor(10, 0) : PrintN("-t "+Str(treadN)+" -b "+Str(blockN)+" -p "+Str(pparamN)+" -w "+Str(k)+" -htsz "+Str(htszN)+" ["+StrD((gsize+httotsize)/1024/1024,3)+" MB] RAM Geracao["+Str(ramneed1/1024/1024)+" MB]") : ConsoleColor(7, 0)
+     Print(L("try_params")) : ConsoleColor(10, 0) : PrintN("-t "+Str(treadN)+" -b "+Str(blockN)+" -p "+Str(pparamN)+" -w "+Str(k)+" -htsz "+Str(htszN)+" ["+StrD((gsize+httotsize)/1024/1024,3)+" MB]" + L("gen_ram") + Str(ramneed1/1024/1024)+" MB]") : ConsoleColor(7, 0)
      
      ;Debug "gsize: "+Str(gsize)
      ;Debug "htsize: "+Str(httotsize)
@@ -101,7 +101,7 @@ Protected CudaContext.i
 cuInit(0)
 
 cuDeviceGetCount(@count)
-Print("  Total GPUs em uso                : ") : ConsoleColor(10, 0) : PrintN(Str(count)) : ConsoleColor(7, 0)
+Print(L("used_gpu")) : ConsoleColor(10, 0) : PrintN(Str(count)) : ConsoleColor(7, 0)
 
 For i = 0 To count-1
       result = cuDeviceGet(@CudaDevice, i)               
@@ -127,7 +127,7 @@ For i = 0 To count-1
       cuCtxDestroy_v2(CudaContext)
       
       
-      Print("  Placa de Video GPU               : ") : ConsoleColor(10, 0) : PrintN(namedev+" ("+StrD(freebytes/1048576)+"/"+Str(sizebytes/1048576)+" MB)") : ConsoleColor(7, 0)
+      Print(L("used_gpu_card")) : ConsoleColor(10, 0) : PrintN(namedev+" ("+StrD(freebytes/1048576)+"/"+Str(sizebytes/1048576)+" MB)") : ConsoleColor(7, 0)
       
       cuDeviceComputeCapability(@major,@minor,CudaDevice) 
       cuDeviceGetAttribute(@piattrib,16,CudaDevice)
@@ -264,61 +264,61 @@ gpupos = gpu(gpuid)
 
 *temper=AllocateMemory(32)
 If *temper=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
 *batch=AllocateMemory(32)
 If *batch=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
 *r=AllocateMemory(32)
 If *r=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *counterBig=AllocateMemory(32)
 If *counterBig=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *counterBigTemp=AllocateMemory(32)
 If *counterBigTemp=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *tempor=AllocateMemory(32)
 If *tempor=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 
 
 MylocalPUB\x=AllocateMemory(32)
 If MylocalPUB\x=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 MylocalPUB\y=AllocateMemory(32)
 If MylocalPUB\y=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 TestPUB\x=AllocateMemory(32)
 If TestPUB\x=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 TestPUB\y=AllocateMemory(32)
 If TestPUB\y=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *PRKADD=AllocateMemory(32)
 If *PRKADD=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 err = cuDeviceGet(@CudaDevice, gpuid)                 
@@ -372,12 +372,12 @@ batchsize = blocktotal * threadtotal * pparam
 
 *a=AllocateMemory(256)
 If *a=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *b=AllocateMemory(paramsize) 
 If *b=0
-  PrintN("  Nao foi possivel alocar memoria")
+  PrintN(L("cant_alloc_mem"))
   exit("")
 EndIf
 *c=AllocateMemory(256) 
@@ -896,7 +896,7 @@ Repeat
             If winpubid<>-1
               ;PrintN("SolutionID: "+Str(winpubid))
             Else
-              PrintN("  Chave publica falsa ignorada (Colisao no Hash GPU)")
+              PrintN(L("cant_found_solution"))
             EndIf
             
             
@@ -1065,7 +1065,7 @@ EndIf
 While isreadyjob
   Delay(1)
 Wend
-Print("  GPU "+Str(gpuid)+" Trabalhos                  : ") : ConsoleColor(10, 0) : PrintN("Finalizado") : ConsoleColor(7, 0)
+Print("  GPU "+Str(gpuid)+L("gpu_jobs")) : ConsoleColor(10, 0) : PrintN(L("finished")) : ConsoleColor(7, 0)
 
 Until globalquit
 
@@ -1087,7 +1087,7 @@ FreeMemory(*c)
 FreeMemory(*temper)
 
 
-Print("  GPU "+Str(gpuid)+" Threads                    : ") : ConsoleColor(10, 0) : PrintN("Finalizado") : ConsoleColor(7, 0)
+Print("  GPU "+Str(gpuid)+L("gpu_threads")) : ConsoleColor(10, 0) : PrintN(L("finished")) : ConsoleColor(7, 0)
 EndProcedure
 
 Procedure packHTGPU()   
@@ -1137,7 +1137,7 @@ Procedure LOAD_HTGPUpacked(*xpoint)
     
     If OpenFile(0,filebinname$,#PB_File_NoBuffering)   
       ;Load BIN if exist
-      Print("  Lendo arquivo BIN                : ") : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
+      Print(L("load_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
       totalloadbytes=0
       maxloadbytes=full_size
       If full_size>1024*1024*1024
@@ -1151,7 +1151,7 @@ Procedure LOAD_HTGPUpacked(*xpoint)
         totalloadbytes + maxloadbytes
         
         If maxloadbytes<>loadedbytes
-          Print("  Erro ao carregar: need:"+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
+          Print(L("err_loading")+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
           CloseFile(0)
           exit("")
         EndIf
@@ -1173,7 +1173,7 @@ Procedure LOAD_HTGPUpacked(*xpoint)
       CloseFile(0)
       
     Else
-      exit("  Nao foi possivel abrir o arquivo:"+filebinname$)
+      exit(L("cant_open_file")+filebinname$)
     EndIf 
   Else
     exit("  File : "+filebinname$+" does not exist")
@@ -1181,4 +1181,6 @@ Procedure LOAD_HTGPUpacked(*xpoint)
  
   
 EndProcedure
+
+
 

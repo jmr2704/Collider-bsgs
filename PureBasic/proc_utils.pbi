@@ -113,7 +113,7 @@ EndProcedure
 
 Procedure exit(a$)
   PrintN(a$)
-  PrintN("  Pressione Enter para sair")
+  PrintN(L("press_enter"))
   Input()
   CloseConsole()
   End
@@ -153,8 +153,8 @@ Procedure getprogparam()
            PrintN( " -htsz    Set number of HashTable 2^ , default "+Str(HT_POW))
            PrintN( " -infile  Set file with pubkey for searching in uncompressed/compressed  format (search sequential)")
            PrintN( " -wl      Set recovery file from which the state will be loaded")
-           PrintN( " -wt      Set timer for autosaving current state, default every "+Str(cnttimer)+"segundos")
-           Input()
+           PrintN( " -wt      Set timer for autosaving current state, default every "+Str(cnttimer)+" seconds")
+           PrintN( " -lang    Select language (EN or PT). E.g. -lang EN")
            End
       
       Case "-wl"
@@ -273,6 +273,9 @@ Procedure getprogparam()
           HT_POW=Val(datares$)
           ;PrintN( "  HT size number set to 2^"+HT_POW) 
         EndIf 
+        
+      Case "-lang"
+        i+1
         
       Default
         exit("  Unknown parameter ["+ProgramParameter(i)+"]")
@@ -636,4 +639,5 @@ Procedure ErrorHandler()
   ;EndIf
 End
 EndProcedure
+
 

@@ -189,7 +189,7 @@ Procedure SortingArrays(totalthread, *xpoint)
 
   *min=AllocateMemory(176)
   If *min=0
-     PrintN("  Nao foi possivel alocar memoria")
+     PrintN(L("cant_alloc_mem"))
     exit("")
   EndIf
   *max = *min + 8
@@ -342,7 +342,7 @@ Procedure SortingArrays(totalthread, *xpoint)
     Next i
     ;********************************
      ;Saving BIN FILE
-    Print("  Salvando arquivo BIN             : ") : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)
+    Print(L("save_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)
     savedbytes=0
     maxsavebytes=full_size
     If full_size>1024*1024*1024
@@ -358,7 +358,7 @@ Procedure SortingArrays(totalthread, *xpoint)
       savedbytes + maxsavebytes
       
       If maxsavebytes<>wrbytes
-        Print("  Erro ao salvar: save:"+Str(maxsavebytes)+"b, got:"+Str(wrbytes)+"b")
+        Print(L("err_saving")+Str(maxsavebytes)+"b, got:"+Str(wrbytes)+"b")
         CloseFile(0)
         exit("")
       EndIf
@@ -375,14 +375,14 @@ Procedure SortingArrays(totalthread, *xpoint)
       i+1
       Until savedbytes>=full_size
       CloseFile(0) 
-      Print("  Salvo                            : ") : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0) : ConsoleColor(7, 0)
+      Print(L("saved")) : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0) : ConsoleColor(7, 0)
     Else
       Debug "  May not create the file!"
     EndIf
   Else
     If OpenFile(0,filebinname$,#PB_File_NoBuffering)   
       ;Load BIN if exist
-      Print("  Lendo arquivo BIN                : ") : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
+      Print(L("load_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
       totalloadbytes=0
       maxloadbytes=full_size
       If full_size>1024*1024*1024
@@ -396,7 +396,7 @@ Procedure SortingArrays(totalthread, *xpoint)
         totalloadbytes + maxloadbytes
         
         If maxloadbytes<>loadedbytes
-          Print("  Erro ao carregar: need:"+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
+          Print(L("err_loading")+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
           CloseFile(0)
           exit("")
         EndIf
@@ -418,7 +418,7 @@ Procedure SortingArrays(totalthread, *xpoint)
       CloseFile(0)
       
     Else
-      exit("  Nao foi possivel abrir o arquivo:"+filebinname$)
+      exit(L("cant_open_file")+filebinname$)
     EndIf 
   EndIf
   
@@ -515,15 +515,15 @@ Procedure HashTableSammary()
   Protected totalbytes
   Shared HT_total_items, HT_total_hashes, HT_max_collisions, HT_items_with_collisions, HT_mask, HT_items, HT_POW
   PrintN("  ----------HashTable Info----------")
-  Print("  Tam. da Tabela                   : ") : ConsoleColor(10, 0) : PrintN("2^"+Str(HT_POW)+"x"+Str(#HashTablesz)+"="+Str(HT_items * #HashTablesz)+" bytes") : ConsoleColor(7, 0)
-  Print("  Mascara Tabela                   : ") : ConsoleColor(10, 0) : PrintN(Hex(HT_mask)) : ConsoleColor(7, 0)
-  Print("  Tabela Usada                     : ") : ConsoleColor(10, 0) : PrintN(StrD(HT_total_hashes*100/HT_items,2)+"%") : ConsoleColor(7, 0)
-  Print("  Hex unicos total                 : ") : ConsoleColor(10, 0) : PrintN(Str(HT_total_hashes)+" = "+StrD(HT_total_hashes*100/HT_total_items,1)+"%") : ConsoleColor(7, 0)
-  Print("  Hashes totais                    : ") : ConsoleColor(10, 0) : PrintN(Str(HT_total_items)+"="+Str(HT_total_items)+"x"+Str(#HashTableSizeItems)+"="+Str(HT_total_items * #HashTableSizeItems)+" bytes") : ConsoleColor(7, 0)
+  Print(L("table_size")) : ConsoleColor(10, 0) : PrintN("2^"+Str(HT_POW)+"x"+Str(#HashTablesz)+"="+Str(HT_items * #HashTablesz)+" bytes") : ConsoleColor(7, 0)
+  Print(L("table_mask")) : ConsoleColor(10, 0) : PrintN(Hex(HT_mask)) : ConsoleColor(7, 0)
+  Print(L("table_used")) : ConsoleColor(10, 0) : PrintN(StrD(HT_total_hashes*100/HT_items,2)+"%") : ConsoleColor(7, 0)
+  Print(L("total_uniq_hex")) : ConsoleColor(10, 0) : PrintN(Str(HT_total_hashes)+" = "+StrD(HT_total_hashes*100/HT_total_items,1)+"%") : ConsoleColor(7, 0)
+  Print(L("total_hashes")) : ConsoleColor(10, 0) : PrintN(Str(HT_total_items)+"="+Str(HT_total_items)+"x"+Str(#HashTableSizeItems)+"="+Str(HT_total_items * #HashTableSizeItems)+" bytes") : ConsoleColor(7, 0)
   totalbytes = HT_total_items*#HashTableSizeItems + HT_items * #HashTablesz
-  Print("  Total                            : ") : ConsoleColor(10, 0) : PrintN(Str(totalbytes)+" bytes = "+StrD(totalbytes/1024/1024,1)+"Mb") : ConsoleColor(7, 0)
-  Print("  Total Colisoes                   : ") : ConsoleColor(10, 0) : PrintN(Str(HT_items_with_collisions)+" = "+StrD(HT_items_with_collisions*100/HT_total_items,1)+"%") : ConsoleColor(7, 0)
-  Print("  Colisoes Max.                    : ") : ConsoleColor(10, 0) : PrintN(Str(HT_max_collisions)) : ConsoleColor(7, 0)
+  Print(L("total")) : ConsoleColor(10, 0) : PrintN(Str(totalbytes)+" bytes = "+StrD(totalbytes/1024/1024,1)+"Mb") : ConsoleColor(7, 0)
+  Print(L("total_cols")) : ConsoleColor(10, 0) : PrintN(Str(HT_items_with_collisions)+" = "+StrD(HT_items_with_collisions*100/HT_total_items,1)+"%") : ConsoleColor(7, 0)
+  Print(L("max_cols")) : ConsoleColor(10, 0) : PrintN(Str(HT_max_collisions)) : ConsoleColor(7, 0)
   PrintN("  ----------------------------------")
   
   ProcedureReturn HT_total_items*#HashTableSizeItems+HT_total_hashes * #HashTablesz
@@ -561,7 +561,7 @@ Procedure GenHashTable()
   Shared waletcounter
   num_threads = CountCPUs(#PB_System_ProcessCPUs)
   If num_threads < 1 : num_threads = 1 : EndIf
-  Print("  Adicionando Baby Points na HashTable usando "+Str(num_threads)+" threads...00%")
+  Print(L("add_babys_ht")+Str(num_threads)+" threads...00%")
   
   Dim threads(num_threads)
   items_per_thread = waletcounter / num_threads
@@ -723,11 +723,11 @@ Procedure sortHashTable32bit(*arr, totalines)
   Wend
   UnlockMutex(HTCountMutex)
   If err   
-    PrintN("  Valor ja existe!!!>"+Hex(Valuel(*INShash)))
+    PrintN(L("val_exist")+Hex(Valuel(*INShash)))
     For i =0 To totalines-1
       PrintN ("["+Str(i)+"] "+Hex(Valuel(*arr + i * #HashTableSizeItems))+" ("+Hex(Valuel(*arr + i * #HashTableSizeItems+#HashTableSizeHash))+")")  
     Next i
-    exit("  Tente aumentar o parametro -htsz")
+    exit(L("try_inc_htsz"))
   EndIf
   FreeMemory(*temp)
 EndProcedure 
@@ -914,7 +914,7 @@ Procedure checkWholeHashTableContentPack(*arr)
   Protected i
   Shared *Table_unalign, *PointerTable_unalign, HTHeaps()
   
-  PrintN("  Destruindo 256 Galpoes de Memoria...aguarde")
+  PrintN(L("dest_heaps"))
   For i = 0 To 255
     If HTHeaps(i)
       HeapDestroy_(HTHeaps(i))
@@ -923,7 +923,7 @@ Procedure checkWholeHashTableContentPack(*arr)
   
   FreeMemory(*Table_unalign) 
   FreeMemory(*PointerTable_unalign) 
-  PrintN("  HashTable Temporaria limpa com Sucesso")
+  PrintN(L("rm_temp_ht"))
 EndProcedure
 
 Procedure checkHT( totalpoints, numberofrand=1024)
@@ -978,7 +978,7 @@ Procedure Save_HTpacked(*xpoint)
        ramneed1=ramneed2
      EndIf
      If MemoryStatus(#PB_System_FreePhysical)<ramneed1
-       PrintN("  Aviso!!! Para calcular os arrays voce precisa ter livre "+Str(ramneed1/1024/1024)+" MB of RAM")
+       PrintN(L("warn_free_mem")+Str(ramneed1/1024/1024)+" MB of RAM")
        Delay(2000)
      Else
        PrintN("  Free RAM["+Str(MemoryStatus(#PB_System_FreePhysical)/1024/1024)+" MB], need["+Str(ramneed1/1024/1024)+" MB]")
@@ -989,7 +989,7 @@ Procedure Save_HTpacked(*xpoint)
       PrintN("  Nao foi possivel alocar memoria for HT("+Str((HT_items*#HashTablesz + #align_size))+")")
       exit("")
     EndIf
-    PrintN("  Alocado ("+Str(HT_items*#HashTablesz + #align_size)+") for HT")
+    PrintN(L("allocated")+Str(HT_items*#HashTablesz + #align_size)+") for HT")
     *Table=*Table_unalign+#align_size-(*Table_unalign % #align_size)
     
     *PointerTable_unalign=AllocateMemory(HT_items*#Pointersz + #align_size)
@@ -1015,7 +1015,7 @@ Print("  Verify baby array...")
     GenHashTable()
     HashTableSammary()
     
-    Print("  Ordenando itens HT...")
+    Print(L("sort_ht"))
     sortWholeHashTable(*Table, HT_items)
     PrintN("ok")
     
@@ -1052,13 +1052,13 @@ Print("  Verify HT items...")
       EndIf
      *CpuHTPacked=*CpuHTPacked_unalign+#align_size-(*CpuHTPacked_unalign % #align_size)
       *GpuHT = *CpuHTPacked ; temporarily point so packHT writes to it
-      Print("  Empacotando itens HT CPU...")
+      Print(L("pack_htcpu"))
       packHT()
       PrintN("ok")
       ; Save file for CPU using
       ;Saving BIN FILE
       CompilerIf #ENABLE_VERIFICATIONS
-Print("  Verificando empacotamento CPU...")
+Print(L("verify_htcpu"))
       If checkHTpack(waletcounter, 1024)=1
         exit("")
       Else
@@ -1067,7 +1067,7 @@ Print("  Verificando empacotamento CPU...")
       CompilerEndIf
       
       CompilerIf #ENABLE_VERIFICATIONS
-Print("  Verificando ordenacao CPU...")
+Print(L("verify_htcpu_sort"))
       If checkWholeHashTableContentPack(*GpuHT)
        exit("")
       Else
@@ -1076,7 +1076,7 @@ Print("  Verificando ordenacao CPU...")
       
       CompilerEndIf
       
-      Print("  Salvando arquivo BIN             : ") : ConsoleColor(10, 0) : PrintN(filebinname$+"_htCPU.BIN") : ConsoleColor(7, 0)
+      Print(L("save_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$+"_htCPU.BIN") : ConsoleColor(7, 0)
       savedbytes=0
       maxsavebytes=full_size
       If full_size>1024*1024*1024
@@ -1092,7 +1092,7 @@ Print("  Verificando ordenacao CPU...")
         savedbytes + maxsavebytes
         
         If maxsavebytes<>wrbytes
-          Print("  Erro ao salvar: save:"+Str(maxsavebytes)+"b, got:"+Str(wrbytes)+"b")
+          Print(L("err_saving")+Str(maxsavebytes)+"b, got:"+Str(wrbytes)+"b")
           CloseFile(0)
           exit("")
         EndIf
@@ -1109,7 +1109,7 @@ Print("  Verificando ordenacao CPU...")
         i+1
         Until savedbytes>=full_size
         CloseFile(0) 
-        Print("  Salvo                            : ") : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0) : ConsoleColor(7, 0)
+        Print(L("saved")) : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0) : ConsoleColor(7, 0)
         
         
   
@@ -1130,12 +1130,12 @@ Print("  Verificando ordenacao CPU...")
       EndIf
      *GpuHT=*GpuHT_unalign+#align_size-(*GpuHT_unalign % #align_size)
    
-      Print("  Empacotando itens HT GPU...")
+      Print(L("pack_htgpu"))
       packHTGPU()
       PrintN("ok")
       ; Save file for CPU using
       ;Saving BIN FILE
-      Print("  Salvando arquivo BIN             : ") : ConsoleColor(10, 0) : PrintN(filebinname$+"_htGPU.BIN") : ConsoleColor(7, 0)
+      Print(L("save_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$+"_htGPU.BIN") : ConsoleColor(7, 0)
       savedbytes=0
       maxsavebytes=full_size
       If full_size>1024*1024*1024
@@ -1151,7 +1151,7 @@ Print("  Verificando ordenacao CPU...")
         savedbytes + maxsavebytes
         
         If maxsavebytes<>wrbytes
-          Print("  Erro ao salvar: save:"+Str(maxsavebytes)+"b, got:"+Str(wrbytes)+"b")
+          Print(L("err_saving")+Str(maxsavebytes)+"b, got:"+Str(wrbytes)+"b")
           CloseFile(0)
           exit("")
         EndIf
@@ -1168,7 +1168,7 @@ Print("  Verificando ordenacao CPU...")
         i+1
         Until savedbytes>=full_size
         CloseFile(0) 
-        Print("  Salvo                            : ") : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0) : ConsoleColor(7, 0)
+        Print(L("saved")) : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0) : ConsoleColor(7, 0)
         
         
   
@@ -1211,7 +1211,7 @@ Procedure LOAD_HTCPUpacked(*xpoint)
     
     If OpenFile(0,filebinname$,#PB_File_NoBuffering)   
       ;Load BIN if exist
-      Print("  Lendo arquivo BIN                : ") : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
+      Print(L("load_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
       totalloadbytes=0
       maxloadbytes=full_size
       If full_size>1024*1024*1024
@@ -1225,7 +1225,7 @@ Procedure LOAD_HTCPUpacked(*xpoint)
         totalloadbytes + maxloadbytes
         
         If maxloadbytes<>loadedbytes
-          Print("  Erro ao carregar: need:"+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
+          Print(L("err_loading")+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
           CloseFile(0)
           exit("")
         EndIf
@@ -1247,7 +1247,7 @@ Procedure LOAD_HTCPUpacked(*xpoint)
       CloseFile(0)
       
     Else
-      exit("  Nao foi possivel abrir o arquivo:"+filebinname$)
+      exit(L("cant_open_file")+filebinname$)
     EndIf 
   Else
     exit("  File :"+filebinname$+" does not exist")
@@ -1255,4 +1255,5 @@ Procedure LOAD_HTCPUpacked(*xpoint)
  
   
 EndProcedure
+
 

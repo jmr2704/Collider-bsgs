@@ -15,7 +15,7 @@ CompilerEndIf
 #alignMemoryGpu=64   
 #LOGFILE=1
 #WINFILE="Found.txt"
-#appver="v2.0.0 (14.06.2026) Jefferson - Versao PT-BR"
+#appver="v2.0.0 (14.06.2026) Jefferson"
 Structure JobSturucture
   *arr
   *NewPointsArr

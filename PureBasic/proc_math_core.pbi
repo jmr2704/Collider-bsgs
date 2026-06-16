@@ -403,7 +403,7 @@ Procedure baby(id)
   leadzero=32
   *inv = AllocateMemory(192)
   If *inv=0
-    PrintN(msg$+"  Nao foi possivel alocar memoria")
+    PrintN(msg$+L("cant_alloc_mem"))
     exit("")
   EndIf
   *bufferResult= *inv+32
@@ -472,7 +472,7 @@ Procedure GenBabys(*xpoint, *ypoint)
   full_size=waletcounter*8
   
   If FileSize(filebinname$) <= 0
-    PrintN("  Gerando Buffer de Babys: "+Str(waletcounter)+" items")
+    PrintN(L("gen_babys")+Str(waletcounter)+" items")
  
     Curve::fillarrayN(*HelperArr , 1024, *CurveGX, *CurveGY)
     ;prntarrBIG(*HelperArr, 5)
@@ -485,7 +485,7 @@ Procedure GenBabys(*xpoint, *ypoint)
       Next
       
       jobperthread = waletcounter/totalCPUcout
-      PrintN("  trabalho por thread: "+Str(jobperthread)+" items")
+      PrintN(L("job_thread")+Str(jobperthread)+" items")
       job(Str(0))\arr = *HelperArr
       job(Str(0))\NewPointsArr = *BabyArr
       job(Str(0))\totalpoints = jobperthread
@@ -494,10 +494,10 @@ Procedure GenBabys(*xpoint, *ypoint)
       job(Str(0))\beginrangeY$  = Curve::m_gethex32(*ypoint)
       
       restjob = waletcounter - (jobperthread * totalCPUcout)
-      PrintN("  Pontos de reset: "+Str(restjob))
+      PrintN(L("reset_points")+Str(restjob))
       
     Else  
-      PrintN("  trabalho por thread: "+Str(waletcounter)+" items")
+      PrintN(L("job_thread")+Str(waletcounter)+" items")
       job(Str(0))\arr = *HelperArr
       job(Str(0))\NewPointsArr = *BabyArr
       job(Str(0))\totalpoints = waletcounter
@@ -551,7 +551,7 @@ Procedure GenBabys(*xpoint, *ypoint)
     ;Saving BIN FILE
     PrintN("  Total: "+Str(full_size)+" bytes")
     ; -- SAVE DAG FILE
-    Print("  Salvando arquivo BIN             : ") : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)
+    Print(L("save_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)
     savedbytes=0
     maxsavebytes=full_size
     If full_size>1024*1024*1024
@@ -583,14 +583,14 @@ Procedure GenBabys(*xpoint, *ypoint)
       i+1
       Until savedbytes>=full_size
       CloseFile(0) 
-      Print("  Salvo                            : ") : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0)
+      Print(L("saved")) : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0)
     Else
       Debug "  May not create the file!"
     EndIf
   Else
     If OpenFile(0,filebinname$,#PB_File_NoBuffering)   
       ;Load BIN if exist
-      Print("  Lendo arquivo BIN                : ") : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
+      Print(L("load_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
       totalloadbytes=0
       maxloadbytes=full_size
       If full_size>1024*1024*1024
@@ -604,7 +604,7 @@ Procedure GenBabys(*xpoint, *ypoint)
         totalloadbytes + maxloadbytes
         
         If maxloadbytes<>loadedbytes
-          Print("  Erro ao carregar: need:"+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
+          Print(L("err_loading")+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
           CloseFile(0)
           exit("")
         EndIf
@@ -623,7 +623,7 @@ Procedure GenBabys(*xpoint, *ypoint)
       
       CloseFile(0)
     Else
-      exit("  Nao foi possivel abrir o arquivo:"+filebinname$)
+      exit(L("cant_open_file")+filebinname$)
     EndIf 
   EndIf
   ;********************************
@@ -894,7 +894,7 @@ Procedure Save_Load_Giants()
     giant(0)
     
     CompilerIf #ENABLE_VERIFICATIONS
-    Print("  Verificando array Giant...")
+    Print(L("verify_giant"))
     If checkGiantArr(*GiantArr, ADDPUBG\x,ADDPUBG\y, maxnonce * 32, maxnonce, maxnonce/65536)=1
       
       exit("")
@@ -904,10 +904,10 @@ Procedure Save_Load_Giants()
     
     CompilerEndIf
 
-    Print("  Preparando Buffer Giant para a GPU...")
+    Print(L("prep_giant_gpu"))
     *temper = AllocateMemory(64)
     If *temper=0
-      PrintN("  Nao foi possivel alocar memoria")
+      PrintN(L("cant_alloc_mem"))
       exit("")
     EndIf
     Yoffset = maxnonce * 32
@@ -925,7 +925,7 @@ Procedure Save_Load_Giants()
     
     RemoveGiantArrTemp() 
     ;Saving BIN FILE
-    Print("  Salvando arquivo BIN             : ") : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)
+    Print(L("save_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)
     savedbytes=0
     maxsavebytes=full_size
     If full_size>1024*1024*1024
@@ -941,7 +941,7 @@ Procedure Save_Load_Giants()
       savedbytes + maxsavebytes
       
       If maxsavebytes<>wrbytes
-        Print("  Erro ao salvar: save:"+Str(maxsavebytes)+"b, got:"+Str(wrbytes)+"b")
+        Print(L("err_saving")+Str(maxsavebytes)+"b, got:"+Str(wrbytes)+"b")
         CloseFile(0)
         exit("")
       EndIf
@@ -958,7 +958,7 @@ Procedure Save_Load_Giants()
       i+1
       Until savedbytes>=full_size
       CloseFile(0) 
-      Print("  Salvo                            : ") : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0)
+      Print(L("saved")) : ConsoleColor(10, 0) : PrintN(Str(savedbytes)+" bytes") : ConsoleColor(7, 0)
     Else
       Debug "  May not create the file!"
     EndIf
@@ -966,7 +966,7 @@ Procedure Save_Load_Giants()
     
     If OpenFile(0,filebinname$,#PB_File_NoBuffering)   
       ;Load BIN if exist
-      Print("  Lendo arquivo BIN                : ") : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
+      Print(L("load_bin")) : ConsoleColor(10, 0) : PrintN(filebinname$) : ConsoleColor(7, 0)  
       totalloadbytes=0
       maxloadbytes=full_size
       If full_size>1024*1024*1024
@@ -980,7 +980,7 @@ Procedure Save_Load_Giants()
         totalloadbytes + maxloadbytes
         
         If maxloadbytes<>loadedbytes
-          Print("  Erro ao carregar: need:"+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
+          Print(L("err_loading")+Str(maxloadbytes)+"b, got:"+Str(loadedbytes)+"b")
           CloseFile(0)
           exit("")
         EndIf
@@ -1002,7 +1002,7 @@ Procedure Save_Load_Giants()
       CloseFile(0)
       
     Else
-      exit("  Nao foi possivel abrir o arquivo:"+filebinname$)
+      exit(L("cant_open_file")+filebinname$)
     EndIf 
   EndIf
   If *temper
@@ -1039,6 +1039,7 @@ Procedure RemoveGiantArrTemp()
   memtotal + MemorySize(*GiantArr) 
   
   FreeMemory(*GiantArr) 
-  PrintN("  Memoria RAM liberada: "+StrD(memtotal/1024/1024,3)+" MB")
+  PrintN(L("freed_mem")+StrD(memtotal/1024/1024,3)+" MB")
 EndProcedure
+
 
