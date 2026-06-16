@@ -113,7 +113,8 @@ Run test: ```Collider.exe -t 512 -b 72 -p 306 -pk 49dccfd96dc5df56487436f5a1b18c
 
 ## Building
 - To compile the Collider you need [Purebasic v5.31](https://www.purebasic.com)
-- Open `PureBasic` folder and run `compilar.bat`. The output will be automatically saved to the `x64` folder.
+- **Windows:** Open `PureBasic` folder and run `compilar.bat`. The output will be automatically saved to the `x64` folder.
+- **Linux:** Open `PureBasic` folder and run `chmod +x compilar.sh && ./compilar.sh`. The output will be saved to the `x64` folder.
 - Alternatively, you can use the PureBasic IDE to compile `Collider.pb`.
 
 ## __Disclaimer__

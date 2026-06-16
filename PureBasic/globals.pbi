@@ -1,6 +1,6 @@
 EnableExplicit
 #ENABLE_VERIFICATIONS = 0
-IncludeFile "lib\Curve64.pb"
+IncludeFile "lib/Curve64.pb"
 CompilerIf #PB_Compiler_Unicode
   Debug" switch to Ascii mode"
   End
@@ -40,7 +40,11 @@ Structure comparsationStructure
   direction.i
 EndStructure
 
-Import "lib\cuda.lib"
+CompilerIf #PB_Compiler_OS = #PB_OS_Windows
+  Import "lib\cuda.lib"
+CompilerElse
+  ImportC "-lcuda"
+CompilerEndIf
   cuInit(Flags.i)
   
   cuMemGetInfo_v2(freebytes.i,totalbytes.i)
